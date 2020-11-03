@@ -27,10 +27,10 @@ async function run() {
     await Promise.all(
       penguins.map(penguin => {
         return client.query(`
-                    INSERT INTO penguins (name, cool_factor,number_of_feet,size, owner_id)
-                    VALUES ($1, $2, $3, 4$, 5$);
+                    INSERT INTO penguins (name, number_of_feet, eats_fish size, owner_id)
+                    VALUES ($1, $2, $3, $4, $5)
                 `,
-        [penguin.name, penguin.cool_factor, penguin.number_of_feet, penguin.size, user.id]);
+        [penguin.name, penguin.number_of_feet, penguin.eats_fish, penguin.size, user.id]);
       })
     );
     
