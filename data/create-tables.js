@@ -22,7 +22,9 @@ async function run() {
                     name VARCHAR(512) NOT NULL,
                     number_of_feet INTEGER NOT NULL,
                     eats_fish BOOLEAN NOT NULL,
-                    size VARCHAR(256) NOT NULL REFERENCES users(id)
+                    size VARCHAR(256) NOT NULL,
+                    owner_id INTEGER NOT NULL REFERENCES users(id)
+
             );
         `);
 
