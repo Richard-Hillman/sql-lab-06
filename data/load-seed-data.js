@@ -7,7 +7,7 @@ const { getEmoji } = require('../lib/emoji.js');
 run();
 
 async function run() {
-  console.log(penguins)
+  console.log(penguins);
   try {
     await client.connect();
 
@@ -34,7 +34,7 @@ async function run() {
       })
     );
     
-    console.log(penguins)
+    console.log(penguins);
 
     console.log('seed data load complete', getEmoji(), getEmoji(), getEmoji());
   }
