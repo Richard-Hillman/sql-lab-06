@@ -7,7 +7,7 @@ const { getEmoji } = require('../lib/emoji.js');
 run();
 
 async function run() {
-
+  console.log(penguins)
   try {
     await client.connect();
 
@@ -27,13 +27,14 @@ async function run() {
     await Promise.all(
       penguins.map(penguin => {
         return client.query(`
-                    INSERT INTO penguins (name, number_of_feet, eats_fish size, owner_id)
+                    INSERT INTO penguins (name, number_of_feet, eats_fish, size, owner_id)
                     VALUES ($1, $2, $3, $4, $5)
                 `,
         [penguin.name, penguin.number_of_feet, penguin.eats_fish, penguin.size, user.id]);
       })
     );
     
+    console.log(penguins)
 
     console.log('seed data load complete', getEmoji(), getEmoji(), getEmoji());
   }
