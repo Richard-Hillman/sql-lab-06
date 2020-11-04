@@ -8,21 +8,12 @@ const client = require('../lib/client');
 
 describe('app routes', () => {
   describe('routes', () => {
-    let token;
+  
   
     beforeAll(async done => {
       execSync('npm run setup-db');
   
       client.connect();
-  
-      const signInData = await fakeRequest(app)
-        .post('/auth/signup')
-        .send({
-          email: 'jon@user.com',
-          password: '1234'
-        });
-      
-      token = signInData.body.token;
   
       return done();
     });
@@ -35,24 +26,38 @@ describe('app routes', () => {
 
     const expectation = [
       {
-        'id': 1,
-        'name': 'bessie',
-        'coolfactor': 3,
-        'owner_id': 1
+        name: 'emperor',
+        number_of_feet: 2,
+        eats_fish: true,
+        size: 'large',
       },
       {
-        'id': 2,
-        'name': 'jumpy',
-        'coolfactor': 4,
-        'owner_id': 1
+        name: 'king',
+        number_of_feet: 2,
+        eats_fish: true,
+        size: 'large',
       },
       {
-        'id': 3,
-        'name': 'spot',
-        'coolfactor': 10,
-        'owner_id': 1
+        name: 'african',
+        number_of_feet: 2,
+        eats_fish: true,
+        size: 'medium',
+      },
+      {
+        name: 'galapagos',
+        number_of_feet: 2,
+        eats_fish: true,
+        size: 'small',
+      },
+      {
+        name: 'gentoo',
+        number_of_feet: 2,
+        eats_fish: false,
+        size: 'small',
       }
+    
     ];
+    
 
     const data = await fakeRequest(app)
       .get('/penguins')
