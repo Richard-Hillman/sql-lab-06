@@ -1,12 +1,12 @@
 module.exports = [
   {
-    size: 'small'
+    size: 'Small'
   },
   {
-    size: 'medium'
+    size: 'Medium'
   },
   {
-    size: 'large'
+    size: 'Large'
   }
 ]
 ;
