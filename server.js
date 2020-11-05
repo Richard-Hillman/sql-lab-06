@@ -3,7 +3,7 @@ require('./lib/client').connect();
 
 const app = require('./lib/app');
 
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 3006;
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
