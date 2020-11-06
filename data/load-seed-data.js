@@ -1,7 +1,7 @@
 const client = require('../lib/client');
 // import our seed data:
 const penguins = require('./penguins.js');
-const sizes =require('./sizes.js')
+const sizes = require('./sizes.js');
 const usersData = require('./users.js');
 const { getEmoji } = require('../lib/emoji.js');
 

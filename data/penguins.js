@@ -1,30 +1,30 @@
 module.exports = [
   {
-    name: 'emperor',
+    name: 'Emperor',
     number_of_feet: 2,
     eats_fish: true,
     size_id: 1,
   },
   {
-    name: 'king',
+    name: 'King',
     number_of_feet: 2,
     eats_fish: true,
     size_id: 2,
   },
   {
-    name: 'african',
+    name: 'African',
     number_of_feet: 2,
     eats_fish: true,
     size_id: 3,
   },
   {
-    name: 'galapagos',
+    name: 'Galapagos',
     number_of_feet: 2,
     eats_fish: true,
     size_id: 2,
   },
   {
-    name: 'gentoo',
+    name: 'Gentoo',
     number_of_feet: 2,
     eats_fish: false,
     size_id: 3,
