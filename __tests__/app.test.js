@@ -8,63 +8,197 @@ const client = require('../lib/client');
 
 describe('app routes', () => {
   describe('routes', () => {
-  
-  
+    let token;
+
     beforeAll(async done => {
       execSync('npm run setup-db');
-  
+
       client.connect();
-  
+    
+      const signInData = await fakeRequest(app) 
+        .post('/auth/signup')
+        .send({
+          email: 'jon@user.com',
+          password: '1234'
+        });
+
+      token = signInData.body.token;
+
       return done();
     });
-  
+
     afterAll(done => {
       return client.end(done);
     });
 
-  test('returns penguins', async() => {
+    // ==============================================================
+    // Test 1
 
-    const expectation = [
-      {
-        name: 'emperor',
+    test('returns penguins', async() => {
+
+      const expectation = [
+        {
+          id: 1,
+          name: 'Emperor',
+          number_of_feet: 2,
+          eats_fish: true,
+          sizes: 1
+        },
+        {
+          id: 2,
+          name: 'King',
+          number_of_feet: 2,
+          eats_fish: true,
+          sizes: 2
+        },
+        {
+          id: 3,
+          name: 'African',
+          number_of_feet: 2,
+          eats_fish: true,
+          sizes: 3
+        },
+        {
+          id: 4,
+          name: 'Galapagos',
+          number_of_feet: 2,
+          eats_fish: true,
+          sizes: 2
+        },
+        {
+          id: 5,
+          name: 'Gentoo',
+          number_of_feet: 2,
+          eats_fish: false,
+          sizes: 3
+        }
+      ];
+
+      const data = await fakeRequest(app)
+        .get('/penguins')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    //============================================================
+    // Test 2 
+
+    test('returns a single penguin', async() => {
+      const expectation = {
+        id: 1,
+        name: 'Emperor',
         number_of_feet: 2,
         eats_fish: true,
-        size: 'large',
-      },
-      {
-        name: 'king',
+        size: 'Small'
+      };
+
+      const data = await fakeRequest(app)
+        .get('/penguins/1')
+        .expect('Content-Type', /json/) 
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    // ====================================================================
+    // Test 3
+
+    test('adds a penguin to the DB and returns it', async() => {
+      const expectation = {
+        id: 6,
+        name: 'Emperor',
         number_of_feet: 2,
         eats_fish: true,
-        size: 'large',
-      },
-      {
-        name: 'african',
+        size_id: 1,
+        owner_id: 1
+      };
+
+      const data = await fakeRequest(app)
+        .post('/penguins/')
+        .send({
+          name: 'Emperor',
+          number_of_feet: 2,
+          eats_fish: true,
+          size_id: 1,       
+          owner_id: 1 
+        })
+
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const penguins = await fakeRequest(app)
+        .get('/penguins')
+        .expect('Content-Type', /json/)
+        .expect(200); 
+
+      expect(data.body).toEqual(expectation);
+      expect(penguins.body.length).toEqual(6);
+
+    });
+
+    // ======================================================================
+    // Test 4
+
+    test('updates a single penguin', async() => {
+      const expectation = {
+        id: 1,
+        name: 'Emperor',
         number_of_feet: 2,
         eats_fish: true,
-        size: 'medium',
-      },
-      {
-        name: 'galapagos',
+        size_id: 1,
+        owner_id: 1 
+      };
+
+      const data = await fakeRequest(app)
+        .put('/penguins/1')
+        .send({
+          id: 1,
+          name: 'Emperor',
+          number_of_feet: 2,
+          eats_fish: true,
+          size_id: 1,
+          owner_id: 1 
+        });
+
+      await fakeRequest(app)
+        .get('/penguins/1')
+        .expect('Content-Type', /json/)
+        .expect(200); 
+
+      expect(data.body).toEqual(expectation);
+      // expect(penguins.body.length).toEqual(6);
+    });
+
+    // ==================================================
+    // Test 5
+
+    test('deletes a penguin', async() => {
+      const expectation = {
+        id: 2,
+        name: 'King',
         number_of_feet: 2,
         eats_fish: true,
-        size: 'small',
-      },
-      {
-        name: 'gentoo',
-        number_of_feet: 2,
-        eats_fish: false,
-        size: 'small',
-      }
+        size_id: 2,
+        owner_id: 1 
+      };
+
+      const data = await fakeRequest(app)
+        .delete('/penguins/2')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
     
-    ];
-    
+      await fakeRequest(app)
+        .get('/penguins/')
+        .expect('Content-Type', /json/)
+        .expect(200); 
 
-    const data = await fakeRequest(app)
-      .get('/penguins')
-      .expect('Content-Type', /json/)
-      .expect(200);
+      expect(data.body).toEqual(expectation);
+     
+    });
 
-    expect(data.body).toEqual(expectation);
   });
 });
-,
+
