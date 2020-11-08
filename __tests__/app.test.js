@@ -31,7 +31,7 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test.only('returns penguins', async() => {
+    test('returns penguins', async() => {
 
       const expectation = [
         {
@@ -79,6 +79,24 @@ describe('app routes', () => {
       expect(data.body).toEqual(expectation);
     });
 
+    test('returns a single penguin', async() => {
+      const expectation = {
+        id: 1,
+        name: 'Emperor',
+        number_of_feet: 2,
+        eats_fish: true,
+        size: 'Small'
+      };
+
+      const data = await fakeRequest(app)
+        .get('/penguins/1')
+        .expect('Content-Type', /json/) 
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    
   });
 });
 
