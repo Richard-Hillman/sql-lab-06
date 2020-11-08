@@ -141,13 +141,14 @@ describe('app routes', () => {
     // ======================================================================
     // Test 4
 
-    test.only('updates a single penguin', async() => {
+    test('updates a single penguin', async() => {
       const expectation = {
         id: 1,
         name: 'Emperor',
         number_of_feet: 2,
         eats_fish: true,
-        size: 'Small'
+        size_id: 1,
+        owner_id: 1 
       };
 
       const data = await fakeRequest(app)
@@ -157,7 +158,8 @@ describe('app routes', () => {
           name: 'Emperor',
           number_of_feet: 2,
           eats_fish: true,
-          size: 'Small'
+          size_id: 1,
+          owner_id: 1 
         });
 
       await fakeRequest(app)
@@ -167,9 +169,36 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
       // expect(penguins.body.length).toEqual(6);
-     
-
     });
+
+    // ==================================================
+    // Test 5
+
+    test('deletes a penguin', async() => {
+      const expectation = {
+        id: 2,
+        name: 'King',
+        number_of_feet: 2,
+        eats_fish: true,
+        size_id: 2,
+        owner_id: 1 
+      };
+
+      const data = await fakeRequest(app)
+        .delete('/penguins/2')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+    
+      await fakeRequest(app)
+        .get('/penguins/')
+        .expect('Content-Type', /json/)
+        .expect(200); 
+
+      expect(data.body).toEqual(expectation);
+     
+    });
+
   });
 });
 
