@@ -135,7 +135,6 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
       expect(penguins.body.length).toEqual(6);
-     
 
     });
 
@@ -148,30 +147,26 @@ describe('app routes', () => {
         name: 'Emperor',
         number_of_feet: 2,
         eats_fish: true,
-        size_id: 1,
-        owner_id: 1
+        size: 'Small'
       };
 
       const data = await fakeRequest(app)
         .put('/penguins/1')
         .send({
+          id: 1,
           name: 'Emperor',
           number_of_feet: 2,
           eats_fish: true,
-          size_id: 1,
-          owner_id: 1
-        })
+          size: 'Small'
+        });
 
-        .expect('Content-Type', /json/)
-        .expect(200);
-
-      const penguins = await fakeRequest(app)
-        .get('/penguins/')
+      await fakeRequest(app)
+        .get('/penguins/1')
         .expect('Content-Type', /json/)
         .expect(200); 
 
       expect(data.body).toEqual(expectation);
-      expect(penguins.body.length).toEqual(6);
+      // expect(penguins.body.length).toEqual(6);
      
 
     });
